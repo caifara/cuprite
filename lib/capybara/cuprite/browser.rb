@@ -282,6 +282,8 @@ module Capybara::Cuprite
     end
 
     def find_all(method, selector, within = nil)
+      attempts = 0
+
       begin
         elements = if within
           evaluate("_cuprite.find(arguments[0], arguments[1], arguments[2])", method, selector, within)
@@ -300,6 +302,13 @@ module Capybara::Cuprite
           raise InvalidSelector.new(e.response, method, selector)
         end
         raise
+      rescue Capybara::Cuprite::BrowserError => e
+        case e.message
+        when "Cannot find context with specified id"
+          sleep 0.1
+          attempts += 1
+          retry if attempts <= 6
+        end
       end
     end
 
