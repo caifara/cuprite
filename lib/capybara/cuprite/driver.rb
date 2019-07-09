@@ -294,7 +294,7 @@ module Capybara::Cuprite
     end
 
     def invalid_element_errors
-      [Capybara::Cuprite::ObsoleteNode, Capybara::Cuprite::MouseEventFailed]
+      [Capybara::Cuprite::BrowserError, Capybara::Cuprite::ObsoleteNode, Capybara::Cuprite::MouseEventFailed]
     end
 
     def go_back
